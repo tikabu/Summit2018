@@ -1,19 +1,19 @@
-﻿# Include: Settings.
+# Include: Settings.
 . './Summit2018.settings.ps1'
 
 # Include: build_utils.
 . './build_utils.ps1'
 
 #Synopsis: Run/Publish Tests and Fail Build on Error.
-task Test Clean, RunTests, ConfirmTestsPassed
+task Test Clean, InstallDependencies, RunTests, ConfirmTestsPassed
 
 #Synopsis: Run full Pipeline.
-task . Clean, Analyze, Test, Publish
+task . Test, PublishNuget
 
 #Synopsis: Install dependencies.
 task InstallDependencies {
     if (Get-Command nuget.exe -ErrorAction SilentlyContinue) {
-        nuget restore -source TestPm -outputdirectory packages
+        nuget restore -source SummitBin -outputdirectory packages
     }
     if (!(Test-Path $ModulePath\lib)) {
         mkdir $ModulePath\lib
@@ -23,17 +23,14 @@ task InstallDependencies {
 
 #Synopsis: Clean Artifact directory.
 task Clean {
-    
+
     if (Test-Path -Path $Artifacts) {
         Remove-Item "$Artifacts/*" -Recurse -Force
     }
 
     New-Item -ItemType Directory -Path $Artifacts -Force
-
-    if (!(Test-Path -Path .\PSTestReport)) {
-        & git clone https://github.com/Xainey/PSTestReport.git
-    }
     
+        
 }
 
 #Synopsis: Analyze code.
@@ -68,19 +65,6 @@ task RunTests {
 
     $testResults | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $Artifacts "PesterResults.json")
 
-    $options = @{
-        BuildNumber = $BuildNumber
-        GitRepo = $Settings.GitRepo
-        GetRepoUrl = $Settings.ProjectUrl
-        CiURL = $Settings.CiURL
-        ShowHitCommands = $true
-        Compliance = ($PercentCompliance / 100)
-        ScriptAnalyzerFile = (Join-Path $Artifacts "ScriptAnalysisResults.json")
-        PesterFile = (Join-Path $Artifacts "PesterResults.json")
-        OutputDir = "$Artifacts"
-    }
-
-    . ".\PSTestReport\Invoke-PSTestReport.ps1" @options
 }
 
 #Synopsis: Confirm that tests passed.

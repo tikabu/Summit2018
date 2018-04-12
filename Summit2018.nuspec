@@ -3,8 +3,8 @@
   <metadata>
     <id>Summit2018</id>
     <version>1.0.0</version>
-    <authors>Adam</authors>
-    <owners>Adam</owners>
+    <authors>Adam Murray</authors>
+    <owners>Adam Murray</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Module to demonstrate build pipeline with binary bits</description>
     <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>

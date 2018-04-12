@@ -10,6 +10,6 @@ function get-summit {
 
     process {
         get-item c:\ | Out-Null
-
+        "PowerShell and VSTS rock!!!"
     }
 }

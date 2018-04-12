@@ -1,8 +1,10 @@
-﻿# Settings for build.
+# Settings for build.
 param(
     $Artifacts = './artifacts',
+    $Packages = './packages',
     $ModuleName = 'Summit2018',
     $ModulePath = '.\Summit2018',
+    $Lib = "$ModulePath\Lib",
     $BuildNumber = $env:BUILD_BUILDID,
     $PercentCompliance = '50'
 )
@@ -51,3 +53,4 @@ $Settings = @{
 #task BeforePublish {}
 #Synopsis: Executes after Publish Task.
 #task AfterPublish {}
+

@@ -1,4 +1,4 @@
-﻿# Summit2018
+# Summit2018
 
 **Content**
 
@@ -26,3 +26,4 @@
 
 
 ## <a name=version>Versions and Updates</a>
+
